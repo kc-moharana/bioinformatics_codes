@@ -5,7 +5,7 @@
 
 =theroy
 ## Gene Ontology Theory
-Each includes three independent ontologies for 
+A gene or gene product can be  included in three independent broad-categories  
 > biological processes (BP) : Biological objective of the gene
 > molecular process (MP) : biochemical activity of the gene
 > cellular component (CC) : the plcae in the cell where the gene product is active
@@ -29,8 +29,8 @@ Each gene can have more then one GO term. Each GO term is given a unique 7 digit
 	
 ###GO data representation (computer science part)
 Each GO term is a node of Directed Acyclic Graph (DAG). DAG is similar to a regular graph (graph theory;node--edge-node), but here each node (or gene) is connected to multiple parents and the edges are directed. The directionality reprepresents the fact that a child-node (or gene) is either 'part of' or 'instance of' their parents. 
-		[g1][g2]
-		/\  /\
+	    [g1][g2]
+	     /\  /\
 	 [gp][g3][g5] 
 
 ### GO Enrichment 	statistics
@@ -50,11 +50,11 @@ So we want to check a null hypothesis that the number of red balls 'x' out of K 
 
 So we will use Chi-square test for this null hypothesis test and p-value calculation. 
 First of all form a 2X2 contigency matrix
-						Background_gene		Test_gene		| Total
-	In_category_F		a[n11]					b [n12]		| N1.
-	NOT_in_category_F	c [n21]					d [n22]		| N2.
+				Background_gene		Test_gene	| Total
+	In_category_F		a[n11]			b [n12]		| N1.
+	NOT_in_category_F	c [n21]			d [n22]		| N2.
 					-------------------------------------------
-				Total	a+c [N.1]				b+d [N.2]	| N.. = (a+b+c+d)	
+				Total	a+c [N.1]	b+d [N.2]	| N.. = (a+b+c+d)	
 				
 	Chi-square val = (N..*(|n12n22 - n12n21| - N../2)**2) / (N1.N2.N.1N.2)
 	(as sample size is small we have to substract N../2 ; knownas Yates-correction; Fisher exact test can also be used instead)
@@ -65,7 +65,7 @@ First of all form a 2X2 contigency matrix
 	
 
 
-PERL codes implemented from :
+Chi-square PERL codes implemented from :
 1. https://edwards.sdsu.edu/research/calculating-chi-squared-wiht-perl/
 2. Statistics::Distributions
 3. https://zhouhufeng.wordpress.com/2013/07/31/chi-square-fishers-exact-and-mcnemars-test-using-r/
