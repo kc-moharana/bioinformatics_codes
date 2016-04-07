@@ -1,0 +1,16 @@
+
+# ABOUT
+Life saving oneliners. Hope you find them useful. 
+
+
+# CODES
+1. Compare a list against the first column of a tab separated tabular data and output the subset
+_ perl -ne 'chomp; @a=split /\s+/,$_; if($h{$a[0]}){print "$_\n"; } else {$h{$a[0]}=1 }' test pfam/Pfam-A_annot.txt > test2.txt _
+2. 
+
+
+
+
+
+
+
