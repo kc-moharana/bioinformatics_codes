@@ -1,17 +1,24 @@
 
 # ABOUT
-Life saving oneliners. Hope you find them useful. 
+#Life saving oneliners. Hope you find them useful. 
 
+#CODES
+#
 
-# CODES
-1. Compare a list against the first column of a tab separated tabular data and output the subset
- perl -ne 'chomp; @a=split /\s+/,$_; if($h{$a[0]}){print "$_\n"; } else {$h{$a[0]}=1 }' test pfam/Pfam-A_annot.txt > test2.txt
+ID: 1
+DESC: Compare a list against the first column of a tab separated tabular data and output the subset
+KW: "Compare two list",
+CODE: perl -ne 'chomp; @a=split /\s+/,$_; if($h{$a[0]}){print "$_\n"; } else {$h{$a[0]}=1 }' test pfam/Pfam-A_annot.txt > test2.txt
 // 
-2. Fetch sequences of input IDs
- perl -ne 'if(/^>(\S+)/){$c=$i{$1}}$c?print:chomp;$i{$_}=1 if @ARGV' ids.file fasta.file
+ID: 2
+DESC: Fetch sequences of input IDs
+KW: "subset multifasta"
+CODE: perl -ne 'if(/^>(\S+)/){$c=$i{$1}}$c?print:chomp;$i{$_}=1 if @ARGV' ids.file fasta.file
 // 
-3. Extract the longest isoform from multi fasta file (assumes input ID header: scitn003313.1; if you have differnet id change the $g=~s/\.\d+$//g;  suitable e.g: for Glyma.01G000100.1.p , change to $g=~s/\.\d+\.p$//g; )
-perl -e 'open F,$ARGV[0] or die "$ARGV[0] $!"; %seq; %head; %pTrans; $id;$g;  while(<F>){chomp;if(/^>(\S+)/){$id=$1; $head{$id}=$_;$g=$id; $g=~s/\.\d+$//g; $pTrans{$g}->{$id}=0; } else{$seq{$id}.=$_;  $pTrans{$g}->{$id}=length $seq{$id};  } } foreach my $g ( sort keys %pTrans){  foreach (sort {$pTrans{$g}->{$b} <=> $pTrans{$g}->{$a} } keys %{$pTrans{$g}}){print "$head{$_}\n $seq{$_}\n"; last;} } ' test.fasta 
+ID: 3
+DESC: Extract the longest isoform from multi fasta file (assumes input ID header: scitn003313.1; if you have differnet id change the $g=~s/\.\d+$//g;  suitable e.g: for Glyma.01G000100.1.p , change to $g=~s/\.\d+\.p$//g; )
+KW: "longest isoform",
+CODE: perl -e 'open F,$ARGV[0] or die "$ARGV[0] $!"; %seq; %head; %pTrans; $id;$g;  while(<F>){chomp;if(/^>(\S+)/){$id=$1; $head{$id}=$_;$g=$id; $g=~s/\.\d+$//g; $pTrans{$g}->{$id}=0; } else{$seq{$id}.=$_;  $pTrans{$g}->{$id}=length $seq{$id};  } } foreach my $g ( sort keys %pTrans){  foreach (sort {$pTrans{$g}->{$b} <=> $pTrans{$g}->{$a} } keys %{$pTrans{$g}}){print "$head{$_}\n $seq{$_}\n"; last;} } ' test.fasta 
 //
 4. 
 
