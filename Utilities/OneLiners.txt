@@ -40,17 +40,24 @@ AU: NCBI internet
 CODE: perl -pe '/^[^>]/ and $_=~ s/[a-z]/N/g' genomic.fna > genomic.N-masked.fna
 //
 ID: 6
-DESC: 
-COMMENT: 
-KW: 
-AU: 
-CODE: 
+DESC: Convert single-line-FASTA file to multi-line FASTA file
+COMMENT: change --> [^\n]{20}  <-- 20 to desired width
+KW: "single-line FASTA", "multi-line FASTA", "formatted fasta"
+AU: kcm.eid[at]gmail.com; perlmonk.org
+CODE: perl -ne 'chomp; if(/^>/){print "$_\n" } else { ~s/([^\n]{20})([^\n])/$1\n$2/g; print "$_\n";}' single_line_fasta.fasta
 //
 
-ID: 
-DESC: 
+ID: 7
+DESC: Convert multi-line-FASTA file to single-line FASTA file
 COMMENT: 
-KW: 
+KW: "single-line FASTA", "multi-line FASTA", "formatted fasta"
+AU: kcm.eid@gmail.com
+CODE: perl -ne 'chomp; if(/^>/){print "\n$_\n" } else { ~s/\n//g; print "$_";}' multi-line FASTA.fasta
+//
+ID: 8
+DESC: Convert single-line-FASTA file to TAB- file (ID \t SEQ)
+COMMENT: 
+KW: "single-line FASTA", "TABULAR", "formatted fasta"
 AU: 
 CODE: 
 //
