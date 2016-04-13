@@ -27,4 +27,5 @@ Thu Dec  3 13:03:46 IST 2015
 
 3. Thu Dec 10 12:48:30 AM IST 2015: Utilities: GO enrichment script;
 4. Mon Jan 1 11:34:45 PM IST 2016: Utilities:  	extract_snp_flank.pl
-
+5. Qua Abr 13 16:34:54 BRT 2016: Utilities: pfamparser.pl
+6. 
