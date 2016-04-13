@@ -18,7 +18,8 @@ My PERL and other UNIX based codes developed while analysing NGS, microarray oth
 	1. GO enrichment script
 	2. extract_snp_flank.pl
 	3. pfamparser.pl
-	4. 
+	4. Oneliners
+	5. shanon_entropy_calc.pl 
 
 
 #Changelog
@@ -34,5 +35,5 @@ Thu Dec  3 13:03:46 IST 2015
 3. Thu Dec 10 12:48:30 AM IST 2015: Utilities: GO enrichment script;
 4. Mon Jan 1 11:34:45 PM IST 2016: Utilities:  	extract_snp_flank.pl
 5. Qua Abr 13 16:34:54 BRT 2016: Utilities: pfamparser.pl
-6.  Qua Abr 13 17:33:23 BRT 2016 : NGS: PERL: New scipts Fastq_boxplot and batch_Tview.pl added
+6.  Qua Abr 13 17:33:23 BRT 2016 : NGS: PERL: New scipts Fastq_boxplot and batch_Tview.pl added; shanon_antropy_calc.pl
 7. 
