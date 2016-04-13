@@ -59,7 +59,7 @@ DESC: Convert single-line-FASTA file to TAB- file (ID \t SEQ)
 COMMENT: 
 KW: "single-line FASTA", "TABULAR", "formatted fasta"
 AU: 
-CODE: 
+CODE: perl -ne 'chomp; if(/^>/){print "\n$_\t" } else { ~s/\n//g; print "$_";}' multi-line FASTA.fasta
 //
 
 
