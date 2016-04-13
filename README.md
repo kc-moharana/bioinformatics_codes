@@ -10,9 +10,15 @@ My PERL and other UNIX based codes developed while analysing NGS, microarray oth
 	1. PERL
 		1. GenomeCoverageCalc.pl
 		2. N50_N90_calc.pl
+		3. generate_QC_plots_R_script.pl
+		4. Batch_tview.pl
 	2. R
 
-3. 
+3. Utilities
+	1. GO enrichment script
+	2. extract_snp_flank.pl
+	3. pfamparser.pl
+	4. 
 
 
 #Changelog
@@ -28,4 +34,5 @@ Thu Dec  3 13:03:46 IST 2015
 3. Thu Dec 10 12:48:30 AM IST 2015: Utilities: GO enrichment script;
 4. Mon Jan 1 11:34:45 PM IST 2016: Utilities:  	extract_snp_flank.pl
 5. Qua Abr 13 16:34:54 BRT 2016: Utilities: pfamparser.pl
-6. 
+6.  Qua Abr 13 17:33:23 BRT 2016 : NGS: PERL: New scipts Fastq_boxplot and batch_Tview.pl added
+7. 
