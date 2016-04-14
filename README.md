@@ -22,6 +22,14 @@ My PERL and other UNIX based codes developed while analysing NGS, microarray oth
 	5. shanon_entropy_calc.pl 
 
 
+## FEEDBACK/FEATURE REQUEST
+I will be glad hearing back from you. Please write your feedback/feature request to me. 
+If you have a Git-hub account use the 'Issue' link at the top of this page. 
+You may write directly to me via email (kcm.eid[at]gmail.com).
+
+
+
+
 #Changelog
 ----------------------------
 PS: Using :r !date insert time stamp in Vim.
