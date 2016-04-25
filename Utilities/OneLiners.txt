@@ -67,7 +67,22 @@ COMMENT: change 10 in '$c>=10' to desired number
 KW: "fetch random sequence"
 AU: kcm.eid[at]gmail.com
 CODE: perl -ne 'exit(1) if $c>=10; if(/^>/){$r=rand(10); $f=($r<3?1:0); $c+=$f;} print $_ if $f;' FASTA_FILE  > OUT.fasta
+//
+ID: 10
+DESC: Frequency count from specific column of a tabular data
+COMMENT: Specify column number after cut command (cut -4); 
+KW: "TABULAR", "frequency"
+AU: KCM.EID[at]GMAIL.COM
+CODE: cut -f 4 INPUT.txt | perl -e 'while(<>){chomp; $h{$_}++;} printf "%s\t%d\n",$_,$h{$_} foreach(sort {$h{$b}<=>$h{$a}} keys %h); '  > OUTPUT.txt
+//
 
+ID: 
+DESC: 
+COMMENT:
+KW: 
+AU:
+CODE: 
+//
 
 
 
