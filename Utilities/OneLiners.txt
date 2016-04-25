@@ -61,7 +61,12 @@ KW: "single-line FASTA", "TABULAR", "formatted fasta"
 AU: 
 CODE: perl -ne 'chomp; if(/^>/){print "\n$_\t" } else { ~s/\n//g; print "$_";}' multi-line FASTA.fasta
 //
-
+ID: 9
+DESC: Fetch 'N' random sequences 
+COMMENT: change 10 in '$c>=10' to desired number
+KW: "fetch random sequence"
+AU: kcm.eid[at]gmail.com
+CODE: perl -ne 'exit(1) if $c>=10; if(/^>/){$r=rand(10); $f=($r<3?1:0); $c+=$f;} print $_ if $f;' FASTA_FILE  > OUT.fasta
 
 
 
