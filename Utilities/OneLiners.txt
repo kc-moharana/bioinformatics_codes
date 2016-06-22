@@ -2,7 +2,7 @@
 # ABOUT
 #Life saving oneliners. Hope you find them useful. 
 # Many codes collected from Internet. Credits for those scripts goes to the original authors. 
-
+#Last update: Qua 22 Jun 2016 10:34:57 BRT 
 #CODES
 #
 
@@ -75,15 +75,18 @@ KW: "TABULAR", "frequency"
 AU: KCM.EID[at]GMAIL.COM
 CODE: cut -f 4 INPUT.txt | perl -e 'while(<>){chomp; $h{$_}++;} printf "%s\t%d\n",$_,$h{$_} foreach(sort {$h{$b}<=>$h{$a}} keys %h); '  > OUTPUT.txt
 //
-
-ID: 
-DESC: 
-COMMENT:
-KW: 
-AU:
-CODE: 
+ID: 11
+DESC: Extract a single sequence by ID
+COMMENT: Replace Example ID by your ID name. 
+KW: "subset multifasta", "single ID"
+AU: KCM.EID[at]GMAIL.COM
+CODE: perl -ne 'if(/^>(\S+)/){exit if $id; next if $1 ne "YOUR_ID_HERE"; $id=$1;  }print "$_" if $id; ' Gmax_275_Wm82.fa 
 //
-
-
-
+ID: 12
+DESC: Filter Fasta seq by seq length
+COMMENT: Update $len=50; change "50" to desired length. Outputs: 1> to stdin and 2>stderr
+KW: "FASTA file", "filter by length"
+AU: KCM.EID[at]GMAIL.COM
+CODE: perl -lne '$len=50; chomp; if(/^>(\S+)/){if($seq and $id){$seq=~s/([^\n]{80})([^\n])/$1\n$2/g; if (length($seq)>=$len){printf ">%s\n%s\n",$id,$seq }else{printf STDERR ">%s\n%s\n",$id,$seq  }  } ($id,$seq)=("",""); $id=$1;}else {$seq.=$_; } ' goodProteins.fasta 1>goodProteins_gtr_50.fasta 2>goodProteins_lt_50.fasta
+//
 
