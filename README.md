@@ -20,7 +20,13 @@ My PERL and other UNIX based codes developed while analysing NGS, microarray oth
 	3. pfamparser.pl
 	4. Oneliners
 	5. shanon_entropy_calc.pl 
+	6. compareTables.pl
+	7. Download_ncbi_SRA.pl
+	8. subSet_PfamA.pl
 
+4. R
+	1. oligo-limma-pipeline.docx
+	2. Basic_microarray-analysis.R
 
 ## FEEDBACK/FEATURE REQUEST
 I will be glad hearing back from you. Please write your feedback/feature request to me. 
@@ -44,4 +50,4 @@ Thu Dec  3 13:03:46 IST 2015
 4. Mon Jan 1 11:34:45 PM IST 2016: Utilities:  	extract_snp_flank.pl
 5. Qua Abr 13 16:34:54 BRT 2016: Utilities: pfamparser.pl
 6.  Qua Abr 13 17:33:23 BRT 2016 : NGS: PERL: New scipts Fastq_boxplot and batch_Tview.pl added; shanon_antropy_calc.pl
-7. 
+7. Wed June 22 11:01 BRT 2016 : Utilites: new scripts added: compareTables.pl, Download_ncbi_SRA.pl , subSet_PfamA.pl, R folder added
