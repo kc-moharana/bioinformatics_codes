@@ -1,10 +1,12 @@
 
 # ABOUT
-#Life saving oneliners. Hope you find them useful. 
+# Life saving oneliners. Hope you find them useful. 
+# Many scripts were developed during my own analysis, and many I have written to help my friends.
 # Many codes collected from Internet. Credits for those scripts goes to the original authors. 
-#Last update: Qua 22 Jun 2016 10:34:57 BRT 
-#CODES
-#
+#  
+
+# CODES
+
 
 ID: 1
 DESC: Compare a list against the first column of a tab separated tabular data and output the subset
@@ -46,7 +48,6 @@ KW: "single-line FASTA", "multi-line FASTA", "formatted fasta"
 AU: kcm.eid[at]gmail.com; perlmonk.org
 CODE: perl -ne 'chomp; if(/^>/){print "$_\n" } else { ~s/([^\n]{20})([^\n])/$1\n$2/g; print "$_\n";}' single_line_fasta.fasta
 //
-
 ID: 7
 DESC: Convert multi-line-FASTA file to single-line FASTA file
 COMMENT: 
@@ -89,4 +90,10 @@ KW: "FASTA file", "filter by length"
 AU: KCM.EID[at]GMAIL.COM
 CODE: perl -lne '$len=50; chomp; if(/^>(\S+)/){if($seq and $id){$seq=~s/([^\n]{80})([^\n])/$1\n$2/g; if (length($seq)>=$len){printf ">%s\n%s\n",$id,$seq }else{printf STDERR ">%s\n%s\n",$id,$seq  }  } ($id,$seq)=("",""); $id=$1;}else {$seq.=$_; } ' goodProteins.fasta 1>goodProteins_gtr_50.fasta 2>goodProteins_lt_50.fasta
 //
-
+ID: 13
+DESC: Batch download sequences from NCBI using NCBI e-util
+COMMENT: change db="XXXXX" with proper database name (nucest, protein)
+KW: "NCBI", "e-util", "batch sequence fetch"
+AU: KCM.EID[at]GMAIL.COM
+CODE: perl -ne 'chomp; push @ID,$_; END{ printf STDERR "Fetching %d IDs from NCBI...\n",scalar @ID; $"=",";system(q(wget -q -O - https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucest\&id=)."@ID".q(\&rettype=fasta))  }'   File_of_id_list  > output.fasta 
+//
