@@ -95,5 +95,5 @@ DESC: Batch download sequences from NCBI using NCBI e-util
 COMMENT: change db="XXXXX" with proper database name (nucest, protein)
 KW: "NCBI", "e-util", "batch sequence fetch"
 AU: KCM.EID[at]GMAIL.COM
-CODE: perl -ne 'chomp; push @ID,$_; END{ printf STDERR "Fetching %d IDs from NCBI...\n",scalar @ID; $"=",";system(q(wget -q -O - https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucest\&id=)."@ID".q(\&rettype=fasta))  }'   File_of_id_list  > output.fasta 
+CODE: perl -MLWP::Simple -ne 'print STDOUT "."; $r=get "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucest\&id=$_\&rettype=fasta"; ($r?print $r:print STDERR "$_ ERROR\n"); sleep(2) ' gene_id_file > OUTPUT.txt
 //
