@@ -1,6 +1,6 @@
 
-## SCRIPT : EXTRACT FLNAKING SEQ USING NYT POSITION
-##kcm.eid@gmail.com
+## SCRIPT : EXTRACT FLNAKING SEQ USING SNP POSITION
+##kcm.eid[at]gmail.com
 
 =input snp pos file
 #ChrNo.	SNP_pos	Reference_ntd

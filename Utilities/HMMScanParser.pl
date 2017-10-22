@@ -1,10 +1,7 @@
+# Script to parse HMMSCAN output and filter on user defined e-val thresholds, list of genes, list of domains.
 
 
-#############################################################################
-#About
 #KCM.EID[at]GMAIL.COM
-#
-#Script to parse HMMSCAN output and filter on user defined thresholds.
 
 ##Features
 #1. Filter using e-value (full-seq, i_E-valDomain,c_E-value)
@@ -144,7 +141,6 @@ foreach $g (@gene_list)
 	}
 delete $data{$g};
 }
-
 
 close OUT if($out_file ne 'STDOUT');
 

@@ -1,4 +1,6 @@
-
+#-----------------------------------------------+
+# ONE LINER PERL/AWK/BASH CODES					|
+#-----------------------------------------------+
 # ABOUT
 # Life saving oneliners. Hope you find them useful. 
 # Many scripts were developed during my own analysis, and many I have written to help my friends.
@@ -6,7 +8,6 @@
 #  
 
 # CODES
-
 
 ID: 1
 DESC: Compare a list against the first column of a tab separated tabular data and output the subset
@@ -90,10 +91,60 @@ KW: "FASTA file", "filter by length"
 AU: KCM.EID[at]GMAIL.COM
 CODE: perl -lne '$len=50; chomp; if(/^>(\S+)/){if($seq and $id){$seq=~s/([^\n]{80})([^\n])/$1\n$2/g; if (length($seq)>=$len){printf ">%s\n%s\n",$id,$seq }else{printf STDERR ">%s\n%s\n",$id,$seq  }  } ($id,$seq)=("",""); $id=$1;}else {$seq.=$_; } ' goodProteins.fasta 1>goodProteins_gtr_50.fasta 2>goodProteins_lt_50.fasta
 //
+
 ID: 13
 DESC: Batch download sequences from NCBI using NCBI e-util
-COMMENT: change db="XXXXX" with proper database name (nucest, protein)
-KW: "NCBI", "e-util", "batch sequence fetch"
+COMMENT: change db="XXXXX" with proper database name (nucest, protein, nuccore)
+KW: "NCBI", "e-util", "batch sequence fetch", "ID file"
 AU: KCM.EID[at]GMAIL.COM
-CODE: perl -MLWP::Simple -ne 'print STDOUT "."; $r=get "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucest\&id=$_\&rettype=fasta"; ($r?print $r:print STDERR "$_ ERROR\n"); sleep(2) ' gene_id_file > OUTPUT.txt
+CODE: perl -MLWP::Simple -ne 'chomp; next if /^$/;$url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi/?rettype=fasta&retmode=text&db=nuccore&id=$_"; print STDERR "."; my $content = get $url;unless (defined $content) { warn "Could not download $_ SKIP...\n" ; ++$err; next;} print STDOUT $content;sleep(1);++$succ; END{printf STDERR "Downloaded: %d\nNot downloaded:%d\nDONE\n", $succ,$err; } ' Gene_id_list > OUTPUT_seq.fasta
+//
+
+ID: 14
+DESC: CD-hit results to table
+COMMENT: First column is longest/representative sequence 
+KW: "cd-hit", "tabular"
+AU: KCM.EID[at]GMAIL.COM
+CODE: perl -ne 'chomp; if(/^>(Cluster \d+)/){$id=$1;}elsif(/\d+\s+\d+aa\,\s+(\S+)/){$k=$1; $k=~s/^>//g; $k=~s/\.{3}$//g; unshift @{$h{$id}},$k;   }  END{foreach $t(sort keys %h){$"="\t"; print "$t\t@{$h{$t}}\n"  } }' test.cd-hit.clstr > test.cd-hit.clstr.tsv
+//
+
+ID: 15
+DESC: Convert FastQ file into Fasta format
+COMMENT: 
+KW: Fastq", "Fasta", "Format convert"
+AU: http://seqanswers.com/forums/showthread.php?t=6888
+CODE: perl -ne '$c++; if ($c==1){$_=~/\@(\S+)/; print ">$1\n"} if($c==2){print "$_"} if ($c==4){$c=0}' input.fastq > output.fasta 
+//
+
+ID: 16
+DESC: Invert ID filtering FASTA
+COMMENT: 
+KW: "subset multifasta","ID file", "FASTA file", "Invert"
+AU: KCM.EID[at]GMAIL.COM
+CODE: perl -ne 'if(/^>(\S+)/){$c=($i{$1}?1:2);};$c==2?print:chomp;$i{$_}=1' ID_file input.fastq > output.fasta 
+//
+
+ID: 17
+DESC: FASTA sequence length per ID
+COMMENT: 
+KW: "FASTA file", "Length", "ID file"
+AU: KCM.EID[at]GMAIL.COM
+CODE: perl -ne 'chomp; if(/^>(\S+)/){ print "$id\t$l\n" if ($l and $id); $l=0; $id=$1; }else {$l+=length($_)} END{ print "$id\t$l\n" }' Sequence.fasta > Length_per_ID.txt
+//
+
+ID: 18
+DESC: GC% calculation from Fasta file
+COMMENT:
+KW:  "GC%", "Fasta file"
+AU: kcm.eid[at]gmail.com
+CODE: perl -ne 'chomp; next if /^>/; @l=split //,$_; $len+=@l; $h{uc($_)}++ foreach (@l); END{@n=keys %h;  print STDERR "Bases @n\n"; printf "GC: %0.2f%\n",100*($h{G}+$h{C})/$len }' Fasta_file  
+//
+
+
+ID: 
+DESC: 
+COMMENT:
+KW: 
+AU:
+CODE: 
 //

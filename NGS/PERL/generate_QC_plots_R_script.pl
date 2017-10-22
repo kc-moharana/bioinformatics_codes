@@ -1,12 +1,9 @@
-#############################################################################################
-##This will generate a R script, that can be used to generate pretty box-plots; the output need to be executed in R to obtain plot
+
+## This will auto-generate a "R script", that can be used to generate pretty box-plots; 
+#	the output need to be executed in R to obtain plot
+
 ## input files must be from ´fastx_quality_stats´ program
-
-
-#KCM.EID[at]GMAIL.com
-
-
-# how to generate input files: fastx_quality_stats [-h] [-i INFILE] [-o OUTFILE]
+# Command for fastx_quality_stats: fastx_quality_stats [-h] [-i INFILE] [-o OUTFILE]
 
 =input file format
 #File_name	label
@@ -32,7 +29,7 @@ Usage: perl $0 -f Input_list -t <pe|se>
 
 	-t <pe|se> : write 'pe' for paired end, 'se' for singel-end fastq files; don't mix;read length must be uniform
 * Default output to Screen; use > to save to file;
-
+#KCM.EID[at]GMAIL.com
 ";
 }
 
@@ -126,7 +123,4 @@ mtext("Quality score",2, adj=0.6, line=0.1, outer=TRUE)
 print STDERR '
 
 DONE; Run the output in R-prompt using source command
-
-
-
 ';

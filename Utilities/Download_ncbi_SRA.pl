@@ -1,12 +1,16 @@
-
-
-
 #Pipeline: To download and process_fastq_files
-## Provide a list of files; (tab separated if downlod separate conditions)
+## Provide a list of files; (tab separated with condition if download separate conditions)
 #last update: Qua 22 Jun 2016 10:35:23 BRT 
 
-use strict;
+# Depends on 
+#	Unix OS
+# 	To download: wget 
+#	To compress fasq file : gzip
+#	To convert sra to fastq : ~/SOFTWARES/sratoolkit.2.5.7-ubuntu64/bin/fastq-dump
+# 	TO generate Fastqc report : ~/SOFTWARES/FastQC/fastqc
 
+
+use strict;
 
 my $list=$ARGV[0] || die "********Pipeline: To download and process_fastq_files***********
 Usage: perl $0 <FILE>

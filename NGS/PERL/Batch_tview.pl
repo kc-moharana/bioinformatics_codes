@@ -1,7 +1,12 @@
 
-##Script to export read-alignment (samtools tview) using location
-# location in this format: chr:start-end
-# requires samootls in $PATH;
+##Script to export read-alignment (samtools tview) from given set of  genome locations
+
+
+# location in this format
+#		chr:start-end
+# requires 
+#	- Unix OS
+#	- samootls in $PATH;
 
 use strict;
 

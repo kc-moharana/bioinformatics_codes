@@ -1,5 +1,5 @@
-##Script to find Genome wide coverage
-##dependancy on:  samtools depth
+## Script to find Genome wide coverage from multiple BAM files in a directory
+## dependency on:  samtools depth
 #Date:29/12/12
 # last update: 31/dec/12
 ## sorting flag added; threading added;
@@ -44,7 +44,7 @@ my $date="$day/$month/$year";
 my %argvHash=@ARGV;
 
 			
-my $BAMdir=$argvHash{'-i'};		##required
+my $BAMdir=$argvHash{'-i'};			##required
 my $refSeqFile=$argvHash{'-s'};		##required
 my $readDepth=$argvHash{'-r'}||1; 	# read Depth to consider[default 1]
 my $toSort=$argvHash{'-sort'}||0;	##sort falg

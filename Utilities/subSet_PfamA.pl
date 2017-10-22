@@ -1,7 +1,8 @@
+#Extract given list of Pfam HMM models from PFAM_A hmm file;
 
 #Date: Qua 22 Jun 2016 10:34:34 BRT 
 ###kcm.eid[at]gmail.com
-#Extract given list of Pfam HMM models from PFAM_A hmm file;
+
 
 
 
@@ -23,24 +24,18 @@ my $data;
 open (F,"$PFAM_A") or die"";
 while(<F>){
 	chomp;
-
 	if(/\/\//){
 		$data .= "$_\n";
 		print $data if $f;
 		undef $data; undef $f;
 	}
 	elsif(/^ACC\s+(\S+)\.\d*/){
-		
 		$f=(exists $acc{$1}?1:0);
 		$data .= "$_\n";
 	}
 	else{
 		$data .= "$_\n";
 	}
-
-	
-
 }
 close F;
-
 warn "\n\nNo. of models exported:".scalar keys %acc;

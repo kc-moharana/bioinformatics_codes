@@ -3,30 +3,37 @@ My PERL and other UNIX based codes developed while analysing NGS, microarray oth
 
 #CONTENTS
 
-1. samtools_mpileup
-	1. VCF
-	2. mpileup
-2. NGS
-	1. PERL
-		1. GenomeCoverageCalc.pl
-		2. N50_N90_calc.pl
-		3. generate_QC_plots_R_script.pl
-		4. Batch_tview.pl
-	2. R
+│   README.md
+│
+├───NGS
+│   ├───Bash
+│   │       SAM_to_BAM.sh
+│   │
+│   ├───PERL
+│   │       bamCoverageCalc.pl
+│   │       Batch_tview.pl
+│   │       generate_QC_plots_R_script.pl
+│   │
+│   ├───Python
+│   └───R
+├───R
+│       Basic_microarray-analysis.R
+│       oligo-limma-pipeline.docx
+│
+├───samtools_mpileup
+│   └───vcf
+│           multiSample_process.pl
+│
+└───Utilities
+        compareTables.pl
+        Download_ncbi_SRA.pl
+        extract_snp_flank.pl
+        GO_enrichment.pl
+        HMMScanParser.pl
+        OneLiners.txt
+        shanon_entropy_from_MSA.pl
+        subSet_PfamA.pl
 
-3. Utilities
-	1. GO enrichment script
-	2. extract_snp_flank.pl
-	3. pfamparser.pl
-	4. Oneliners
-	5. shanon_entropy_calc.pl 
-	6. compareTables.pl
-	7. Download_ncbi_SRA.pl
-	8. subSet_PfamA.pl
-
-4. R
-	1. oligo-limma-pipeline.docx
-	2. Basic_microarray-analysis.R
 
 ## FEEDBACK/FEATURE REQUEST
 I will be glad hearing back from you. Please write your feedback/feature request to me. 
