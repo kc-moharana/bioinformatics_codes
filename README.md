@@ -3,36 +3,36 @@ My PERL and other UNIX based codes developed while analysing NGS, microarray oth
 
 #CONTENTS
 
-│   README.md
-│
-├───NGS
-│   ├───Bash
-│   │       SAM_to_BAM.sh
-│   │
-│   ├───PERL
-│   │       bamCoverageCalc.pl
-│   │       Batch_tview.pl
-│   │       generate_QC_plots_R_script.pl
-│   │
-│   ├───Python
-│   └───R
-├───R
-│       Basic_microarray-analysis.R
-│       oligo-limma-pipeline.docx
-│
-├───samtools_mpileup
-│   └───vcf
-│           multiSample_process.pl
-│
-└───Utilities
-        compareTables.pl
-        Download_ncbi_SRA.pl
-        extract_snp_flank.pl
-        GO_enrichment.pl
-        HMMScanParser.pl
-        OneLiners.txt
-        shanon_entropy_from_MSA.pl
-        subSet_PfamA.pl
+│   README.md  
+│  
+├───NGS  
+│   ├───Bash  
+│   │       SAM_to_BAM.sh  
+│   │  
+│   ├───PERL  
+│   │       bamCoverageCalc.pl  
+│   │       Batch_tview.pl  
+│   │       generate_QC_plots_R_script.pl  
+│   │  
+│   ├───Python  
+│   └───R  
+├───R  
+│       Basic_microarray-analysis.R  
+│       oligo-limma-pipeline.docx  
+│  
+├───samtools_mpileup  
+│   └───vcf  
+│           multiSample_process.pl  
+│  
+└───Utilities  
+        compareTables.pl  
+        Download_ncbi_SRA.pl  
+        extract_snp_flank.pl  
+        GO_enrichment.pl  
+        HMMScanParser.pl  
+        OneLiners.txt  
+        shanon_entropy_from_MSA.pl  
+        subSet_PfamA.pl  
 
 
 ## FEEDBACK/FEATURE REQUEST
@@ -58,3 +58,4 @@ Thu Dec  3 13:03:46 IST 2015
 5. Qua Abr 13 16:34:54 BRT 2016: Utilities: pfamparser.pl
 6.  Qua Abr 13 17:33:23 BRT 2016 : NGS: PERL: New scipts Fastq_boxplot and batch_Tview.pl added; shanon_antropy_calc.pl
 7. Wed June 22 11:01 BRT 2016 : Utilites: new scripts added: compareTables.pl, Download_ncbi_SRA.pl , subSet_PfamA.pl, R folder added
+8. Sun Oct 22 2017: Python section added 
