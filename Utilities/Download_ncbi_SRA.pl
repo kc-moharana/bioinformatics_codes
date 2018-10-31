@@ -1,16 +1,12 @@
+
+
+
 #Pipeline: To download and process_fastq_files
-## Provide a list of files; (tab separated with condition if download separate conditions)
+## Provide a list of files; (tab separated if downlod separate conditions)
 #last update: Qua 22 Jun 2016 10:35:23 BRT 
 
-# Depends on 
-#	Unix OS
-# 	To download: wget 
-#	To compress fasq file : gzip
-#	To convert sra to fastq : ~/SOFTWARES/sratoolkit.2.5.7-ubuntu64/bin/fastq-dump
-# 	TO generate Fastqc report : ~/SOFTWARES/FastQC/fastqc
-
-
 use strict;
+
 
 my $list=$ARGV[0] || die "********Pipeline: To download and process_fastq_files***********
 Usage: perl $0 <FILE>
@@ -22,8 +18,8 @@ my %sra; my %cat;
 
 
 #####Binary file Settings#############
-my $fastq_dump_bin ='~/SOFTWARES/sratoolkit.2.5.7-ubuntu64/bin/fastq-dump';
-my $fastQC_bin ='~/SOFTWARES/FastQC/fastqc';
+my $fastq_dump_bin ='/home/kanhu/SOFTWARES/sratoolkit.2.5.7-ubuntu64/bin/fastq-dump';
+my $fastQC_bin ='/home/kanhu/SOFTWARES/FastQC/fastqc';
 
 unless(-e $fastq_dump_bin or -e $fastQC_bin)
 {
@@ -59,7 +55,11 @@ foreach (sort keys %sra)
 	elsif(/^DRR/){$url ="ftp://ftp.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByRun/sra/ERR/$dir/$_/$_\.sra";}
 	else {print STDERR "\tUnknown File format $_ (use SRR* or ERR* or DRR* formats)\tSkip...\n"; next; }
 	print STDERR "\t$_\t";
-	system ("wget -c $url");
+	
+	system ("wget -c $url") if $^O eq 'linux';
+	my $winGet='powershell -command "$clnt = new-object System.Net.WebClient; $clnt.DownloadFile(\\"';
+#	system ("$winGet.$url.\\\",\\\"$_\.sra\\\"") if $^O eq 'linux';
+	
 	if(-e "$_\.sra") {print STDERR "\t..done..\n"; sleep(2);}
 	else{print STDERR "\t..ERROR..\n";}
 }
@@ -73,7 +73,7 @@ fastq-dump creates huge garbage in \$HOME. Check .ncbi folder in your home regul
 foreach (sort keys %sra)
 {	
 	print STDERR "\t$_\.sra\t";
-	system ("$fastq_dump_bin --split-3 $_");
+	system ("$fastq_dump_bin --split-3 $_") ;	
 	if(-e "$_\.fastq" || (-e "$_\_1.fastq" and -e "$_\_2.fastq") ) {print STDERR "\t..done..\n"; sleep(5);}
 	else{print STDERR "\t..ERROR..\n";}
 	sleep(5);
@@ -92,6 +92,7 @@ foreach (sort @fq)
 }
 
 print STDERR "\nFastQC report... \n";
+=o
 foreach (sort @fq)
 {
 	print STDERR "\t$_\.gz\t";
@@ -100,7 +101,7 @@ foreach (sort @fq)
 	if(-e "$_\_fastqc.html" || (-e "$_\_1_fastqc.html" and -e "$_\_2_fastqc.html") ) {print STDERR "\t..done..\n";}
 	else{print STDERR "\t..ERROR..\n";}
 }
-
+=cut
 if($OUT_SEP eq 'Y'){
 print STDERR "\nOrganising files... \n";
 	foreach (sort keys %sra)
