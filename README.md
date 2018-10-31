@@ -3,36 +3,31 @@ My PERL and other UNIX based codes developed while analysing NGS, microarray oth
 
 #CONTENTS
 
-│   README.md  
-│  
-├───NGS  
-│   ├───Bash  
-│   │       SAM_to_BAM.sh  
-│   │  
-│   ├───PERL  
-│   │       bamCoverageCalc.pl  
-│   │       Batch_tview.pl  
-│   │       generate_QC_plots_R_script.pl  
-│   │  
-│   ├───Python  
-│   └───R  
-├───R  
-│       Basic_microarray-analysis.R  
-│       oligo-limma-pipeline.docx  
-│  
-├───samtools_mpileup  
-│   └───vcf  
-│           multiSample_process.pl  
-│  
-└───Utilities  
-        compareTables.pl  
-        Download_ncbi_SRA.pl  
-        extract_snp_flank.pl  
-        GO_enrichment.pl  
-        HMMScanParser.pl  
-        OneLiners.txt  
-        shanon_entropy_from_MSA.pl  
-        subSet_PfamA.pl  
+├── NGS
+│   ├── Bash
+│   │   └── SAM_to_BAM.sh
+│   └── PERL
+│       ├── bamCoverageCalc.pl
+│       ├── Batch_tview.pl
+│       └── generate_QC_plots_R_script.pl
+├── Phylogenetics
+│   └── Color_node_figtree.pl
+├── R
+│   ├── Basic_microarray-analysis.R
+│   └── oligo-limma-pipeline.docx
+├── README.md
+├── samtools_mpileup
+│   └── vcf
+│       └── multiSample_process.pl
+└── Utilities
+    ├── compareTables.pl
+    ├── Download_ncbi_SRA.pl
+    ├── extract_snp_flank.pl
+    ├── GO_enrichment.pl
+    ├── HMMScanParser.pl
+    ├── OneLiners.txt
+    ├── shanon_entropy_from_MSA.pl
+    └── subSet_PfamA.pl
 
 
 ## FEEDBACK/FEATURE REQUEST
