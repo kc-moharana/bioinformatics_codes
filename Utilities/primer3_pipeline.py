@@ -28,14 +28,14 @@ try:
  genome = sys.argv[2]
  transcripts_seq = sys.argv[3]
  gene_list = sys.argv[4]
- opt_primer_len=20  # max, min = +-2
+ opt_primer_len = 20  # max, min = +-2
  min_five_overlap = 7
  min_three_overlap=4
  min_product_size = 150 #bp
- max_product_size = 300 #bp
+ max_product_size = 250 #bp
  min_GC_perc = 55
  min_Tm = 55
- min_distance_3_primer=5 ## ensures unique primers
+ min_distance_3_primer = 5 ## higher value ensures unique primers[default -1]
  Blastn_extra_params = '-num_threads 10 -word_size 4 -perc_identity 100 -qcov_hsp_perc 100'
  generate_primer3_formatted_output = 1  #[1/0]
  temp_file_loc = 'temp'
@@ -64,10 +64,15 @@ def print_params(opt_primer_len, min_five_overlap, min_three_overlap, min_produc
  print >> sys.stderr, "%50s:%d"%('MIN. 5`-overlap'.upper(),min_five_overlap)
  print >> sys.stderr, "%50s:%d"%('MIN. 3`-overlap'.upper(),min_three_overlap)
  print >> sys.stderr, "%50s:%d"%('MIN. product size (bp)'.upper(),min_product_size)
+ print >> sys.stderr, "%50s:%d"%('MAX. product size (bp)'.upper(),max_product_size)
  print >> sys.stderr, "%50s:%d"%('MIN. GC (%)'.upper(),min_GC_perc)
  print >> sys.stderr, "%50s:%d"%('MIN. Tm (%)',min_GC_perc)
  print >> sys.stderr, "%50s:%d"%('MIN. 3`-primer disntace',min_distance_3_primer)
  print >> sys.stderr, "%60s"%('#'*60)
+ confirm = raw_input('Proceed?[y/n]: ').rstrip()
+ if not confirm.upper() == 'Y':
+  print >> sys.stderr, "Aborting.."
+  sys.exit(1)
  return(1)
 
 
@@ -108,7 +113,7 @@ def draw_primers(exon_array,gene_id):
  st,end,ex_count = 0,0,0
  mRNA_len = 0
  for ex in exon_array:
-  ex_count,st,end = ex_count+1,end+1,end+((ex.end-ex.start))  
+  ex_count,st,end = ex_count+1,end+1,end+((ex.end-ex.start)+1)  
   mRNA_len = end
   strand=+1
   color="#ffd700" 
@@ -135,6 +140,7 @@ def draw_primers(exon_array,gene_id):
  record = dna_plot.GraphicRecord(sequence_length=mRNA_len, features=features)
  ax, _ = record.plot(figure_width=12)
  ax.figure.savefig(gene_id+'primers_plot.pdf') #bbox_inches='tight'
+ print>> sys.stderr, "\tlength %s %d"%(gene_id, mRNA_len)
  return(1)
 
 ######################################################
@@ -180,7 +186,7 @@ def main():
  for l in target_mRNAs:
   l = l.rstrip()
   mRNA = gff_db[l]
-  print>> sys.stderr, mRNA.id, mRNA.strand
+  print>> sys.stderr, "Processing: %s %s %d bp"%(mRNA.id, mRNA.strand, (mRNA.end-mRNA.start)+1)
   mRNA_seq = ''
   primer_3_seq = ''
   exon_array = list()
@@ -196,7 +202,7 @@ def main():
    ex = gff_db[l+'.exon.'+str(e)]
    exon_array.append(ex)  ## keepin order constant
    #print ex.id
-   s = genome_idx[ex.seqid].seq[ex.start:ex.end+1]
+   s = genome_idx[ex.seqid].seq[ex.start-1:ex.end] # as one 1-indexed gff3, python uses 0-index base
    if mRNA.strand =='-':
     s = s.reverse_complement()
    mRNA_seq +=str(s)
@@ -278,7 +284,7 @@ def main():
   draw_primers(exon_array, mRNA.id)
  target_mRNAs.close()
  genome_idx.close()
-
+ sys.exit(0)
 
 if __name__ == "__main__":
  main()
