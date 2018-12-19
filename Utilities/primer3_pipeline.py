@@ -1,23 +1,25 @@
 '''
-#Pipeline for designing primers for qPCR 
- - batch properssing
- - similar to primer-BLAST, but cann't be use non-model organism
- - customized gene annotations (gff3), genomes, transcripts
- - pick primers using primer3
- - runs blast against genome and transcriptome seq.
- - finally reports primers as .tsv.
- - plot primer locations to PDF.
- 
-# dependancies:
- - Python libs: Biopython, gffutils, dna_features_viewer
- - external programs: blastn, primer3
+# Pipeline for designing qPCR primers
+- batch processing
+- similar to primer-BLAST, but can be used to analyze any genomes
+- customized gene annotations (gff3), genomes, transcripts seq
+- pick primers using primer3
+- runs blast against genome and transcriptome seq.
+- finally reports primers as .tsv.
+- plot primer locations to PDF.
+
+# Strategies to ensure correct product size
+- find primers surrounding at least one exon junct. (surround_exon_junc = True)
+- find primers with at least one primer overlapping with exon junction (surround_exon_junc = False)
+
+# Dependencies:
+- Python libs: Biopython, gffutils, dna_features_viewer
+- external programs: blastn, primer3
 '''
 import sys,os,re
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.Alphabet import DNAAlphabet
-#from Bio.SeqUtils import GC
-#from Bio.SeqUtils import MeltingTemp as mt
 import gffutils
 import textwrap
 import Bio.Emboss.Primer3 as p3
@@ -28,6 +30,8 @@ try:
  genome = sys.argv[2]
  transcripts_seq = sys.argv[3]
  gene_list = sys.argv[4]
+ 
+ ## GLOBAL PARAMS
  opt_primer_len = 20  # max, min = +-2
  surround_exon_junc = 1
  min_five_overlap = 7
@@ -39,7 +43,7 @@ try:
  min_distance_3_primer = 5 ## higher value ensures unique primers[default -1]
  Blastn_extra_params = '-num_threads 10 -word_size 4 -perc_identity 100 -qcov_hsp_perc 100'
  generate_primer3_formatted_output = 1  #[1/0]
- temp_file_loc = 'temp'
+ temp_file_loc = 'temp' ## Store all temp files.
 
 except IndexError:
  print >> sys.stderr,"+%s+"%('#'*38)
@@ -81,7 +85,7 @@ def print_params(opt_primer_len,surround_exon_junc, min_five_overlap, min_three_
 
 
 ######################################################
-#Function for parsing primer3 default output file
+#Function for parsing primer3 'default' output file
 # - returns: a dict() of all tags
 ######################################################
 def parse_primer3_detailed_output(primer3_output):
@@ -192,7 +196,7 @@ def main():
   mRNA = gff_db[l]
   print>> sys.stderr, "Processing: %s %s %d bp"%(mRNA.id, mRNA.strand, (mRNA.end-mRNA.start)+1)
   mRNA_seq = ''
-  primer_3_seq = ''
+  primer_3_seq = '' # Just keeping a tack.
   exon_array = list()
   exon_junctions_list = list()	# list of exon-exon junctions
   exons = sorted([f.id for f in gff_db.children(l, featuretype='exon')])
@@ -214,7 +218,7 @@ def main():
    if e!=len(exons):
     primer_3_seq += '-'
     exon_junctions_list.append(len(mRNA_seq))
-  ## Store as Bio.Seq() object 
+  ## Store mRNA sequence as Bio.Seq() object 
   mRNA_seq =Seq(mRNA_seq,DNAAlphabet())  
   
   ## Generate Primer3_input file
@@ -240,6 +244,7 @@ def main():
   print >> output, "\n".join(input_data)  
   output.close()  
   
+  ## RUN primer3_core
   print >> sys.stderr, "## RUNNING Primer3 ##"
   if generate_primer3_formatted_output:
    cmd ="primer3_core -format_output -output=%s  < %s"%(os.path.join(temp_file_loc,mRNA.id+'.primer3_Formatted_output.txt'), os.path.join(temp_file_loc, mRNA.id+'.primer3_input.txt'))
@@ -273,7 +278,7 @@ def main():
 
   ## Final output  
   output = open(mRNA.id+'.primer3_output.tsv', 'w')
-  print >> output, "mRNA\tprimer_no\tLEFT_PRIMER\tLEFT_GC_PERCENT\tLEFT_TM\tLEFT_HAIRPIN_TH\tLEFT_END_STABILITY\tRIGHT_PRIMER\tRIGHT_GC_PERCENT\tRIGHT_TM\tRIGHT_HAIRPIN_TH\tRIGHT_END_STABILITY\tLEFT_Genome_BLASTN_HITS\tRIGHT_Genome_BLASTN_HITS\tLEFT_transcrpt_BLASTN_HITS\tRIGHT_transcript_BLASTN_HITS"
+  print >> output, "mRNA\tPRIMER_SERIAL_NO\tLEFT_PRIMER\tLEFT_GC_PERCENT\tLEFT_TM\tLEFT_HAIRPIN_TH\tLEFT_END_STABILITY\tRIGHT_PRIMER\tRIGHT_GC_PERCENT\tRIGHT_TM\tRIGHT_HAIRPIN_TH\tRIGHT_END_STABILITY\tLEFT_Genome_BLASTN_HITS\tRIGHT_Genome_BLASTN_HITS\tLEFT_transcrpt_BLASTN_HITS\tRIGHT_transcript_BLASTN_HITS"
   for i in xrange(int(pri3_results['PRIMER_PAIR_NUM_RETURNED'])) :
    if not 'PRIMER_LEFT_'+str(i) in genome_blastn_out_dict:
     genome_blastn_out_dict['PRIMER_LEFT_'+str(i)] =0
