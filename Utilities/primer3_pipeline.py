@@ -29,10 +29,11 @@ try:
  transcripts_seq = sys.argv[3]
  gene_list = sys.argv[4]
  opt_primer_len = 20  # max, min = +-2
+ surround_exon_junc = 1
  min_five_overlap = 7
  min_three_overlap=4
- min_product_size = 150 #bp
- max_product_size = 250 #bp
+ min_product_size = 100 #bp
+ max_product_size = 200 #bp
  min_GC_perc = 55
  min_Tm = 55
  min_distance_3_primer = 5 ## higher value ensures unique primers[default -1]
@@ -55,14 +56,17 @@ except IndexError:
 #Function to display all params
 # - returns: 
 ######################################################
-def print_params(opt_primer_len, min_five_overlap, min_three_overlap, min_product_size, max_product_size,min_GC_perc, min_Tm,min_distance_3_primer,Blastn_extra_params):
+def print_params(opt_primer_len,surround_exon_junc, min_five_overlap, min_three_overlap, min_product_size, max_product_size,min_GC_perc, min_Tm,min_distance_3_primer,Blastn_extra_params):
  os.system('clear')
  print >> sys.stderr, "%60s"%('#'*60)
  print >> sys.stderr, "# %58s#"%('IMPORTANT PARAMs')
  print >> sys.stderr, "%60s"%('#'*60)
  print >> sys.stderr, "%50s:%d"%('OPTIMAL PRIMER LEN'.upper(),opt_primer_len)
- print >> sys.stderr, "%50s:%d"%('MIN. 5`-overlap'.upper(),min_five_overlap)
- print >> sys.stderr, "%50s:%d"%('MIN. 3`-overlap'.upper(),min_three_overlap)
+ if not surround_exon_junc:
+  print >> sys.stderr, "%50s:%d"%('MIN. 5`-overlap'.upper(),min_five_overlap)
+  print >> sys.stderr, "%50s:%d"%('MIN. 3`-overlap'.upper(),min_three_overlap)
+ else:
+  print >> sys.stderr, "%50s:%r"%('Select primers arround exon junc.'.upper(),bool(surround_exon_junc))
  print >> sys.stderr, "%50s:%d"%('MIN. product size (bp)'.upper(),min_product_size)
  print >> sys.stderr, "%50s:%d"%('MAX. product size (bp)'.upper(),max_product_size)
  print >> sys.stderr, "%50s:%d"%('MIN. GC (%)'.upper(),min_GC_perc)
@@ -139,8 +143,8 @@ def draw_primers(exon_array,gene_id):
   
  record = dna_plot.GraphicRecord(sequence_length=mRNA_len, features=features)
  ax, _ = record.plot(figure_width=12)
- ax.figure.savefig(gene_id+'primers_plot.pdf') #bbox_inches='tight'
- print>> sys.stderr, "\tlength %s %d"%(gene_id, mRNA_len)
+ ax.figure.savefig(gene_id+'primers_plot.pdf',bbox_inches='tight')
+ #print>> sys.stderr, "\tlength %s %d"%(gene_id, mRNA_len)
  return(1)
 
 ######################################################
@@ -180,7 +184,7 @@ def main():
   cmd = "makeblastdb -in %s -dbtype nucl"%(transcripts_seq)
   print >> sys.stderr, "Creating transcript seq blast db..\n"+cmd
   os.system(cmd)
- print_params(opt_primer_len, min_five_overlap, min_three_overlap, min_product_size, max_product_size,min_GC_perc, min_Tm,min_distance_3_primer,Blastn_extra_params)
+ print_params(opt_primer_len,surround_exon_junc, min_five_overlap, min_three_overlap, min_product_size, max_product_size,min_GC_perc, min_Tm,min_distance_3_primer,Blastn_extra_params)
  
  target_mRNAs = open(gene_list,'r')
  for l in target_mRNAs:
@@ -219,7 +223,6 @@ def main():
   'SEQUENCE_TEMPLATE='+str(mRNA_seq),'PRIMER_TASK=pick_pcr_primers',
   'PRIMER_MIN_3_PRIME_OVERLAP_OF_JUNCTION='+str(min_three_overlap),
   'PRIMER_MIN_5_PRIME_OVERLAP_OF_JUNCTION='+str(min_five_overlap),
-  'SEQUENCE_OVERLAP_JUNCTION_LIST='+" ".join([str(j) for j in exon_junctions_list]),
   'PRIMER_MIN_THREE_PRIME_DISTANCE='+str(min_distance_3_primer),
   'PRIMER_OPT_SIZE='+str(opt_primer_len),
   'PRIMER_MIN_SIZE='+str(opt_primer_len-2), 
@@ -228,8 +231,12 @@ def main():
   'PRIMER_MAX_NS_ACCEPTED=1',
   'PRIMER_PRODUCT_SIZE_RANGE='+str(min_product_size)+'-'+str(min_product_size),
   'P3_FILE_FLAG=0','PRIMER_EXPLAIN_FLAG=1',
-  'PRIMER_THERMODYNAMIC_PARAMETERS_PATH=/media/winterfell/kanhu/SOFTWARES/primer3-2.3.7/src/primer3_config/',
-  '=']
+  'PRIMER_THERMODYNAMIC_PARAMETERS_PATH=/media/winterfell/kanhu/SOFTWARES/primer3-2.3.7/src/primer3_config/']
+  if surround_exon_junc:
+   input_data.append('SEQUENCE_TARGET='+" ".join([str(j-50)+',50' for j in exon_junctions_list]))
+  else:
+   input_data.append('SEQUENCE_OVERLAP_JUNCTION_LIST='+" ".join([str(j) for j in exon_junctions_list]))
+  input_data.append('=')  
   print >> output, "\n".join(input_data)  
   output.close()  
   
@@ -284,8 +291,7 @@ def main():
   draw_primers(exon_array, mRNA.id)
  target_mRNAs.close()
  genome_idx.close()
- sys.exit(0)
+
 
 if __name__ == "__main__":
  main()
- 
