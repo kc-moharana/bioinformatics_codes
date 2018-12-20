@@ -13,7 +13,7 @@ use GD::Simple;
 use GD::Graph::colour;
 
 #######################################
-# tab separated primer pair list
+# tab separated primer pair list, first two columns used
 # - return hash of primer pairs
 ######################################
 sub process_primer_pair{
@@ -23,8 +23,9 @@ sub process_primer_pair{
  my $count=0;
  while(<F>){
   chomp;
-  next if length($_) <3;
-  my ($fwd,$rev) =split /\t/,$_;
+  next if length($_) <3 or /^#/;
+  my @l= split /\t/,$_;
+  my ($fwd,$rev) = ($l[0],$l[1]); ## only first two columns 
   $primer_hash{++$count}->{-fwd} = Bio::PrimarySeq->new(-seq =>$fwd);
   $primer_hash{$count}->{-rev} = Bio::PrimarySeq->new(-seq =>$rev);
  }
