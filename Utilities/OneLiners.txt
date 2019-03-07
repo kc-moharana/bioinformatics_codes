@@ -140,11 +140,26 @@ AU: kcm.eid[at]gmail.com
 CODE: perl -ne 'chomp; next if /^>/; @l=split //,$_; $len+=@l; $h{uc($_)}++ foreach (@l); END{@n=keys %h;  print STDERR "Bases @n\n"; printf "GC: %0.2f%\n",100*($h{G}+$h{C})/$len }' Fasta_file  
 //
 ID: 19
+DESC: RAxML tree, format boot strap
+COMMENT:cat RAxML.bipartitions | perl -p -i -e 's/:(\d+\.\d+)\[(\d+)\]/$2:$1/g'
+KW: "RAxML", "phylogenetics", "boot strap"
+AU:https://www.biostars.org/p/93888/
+CODE: perl -p -ne 's/:(\d+\.\d+)\[(\d+)\]/$2:$1/g' RAxML_bipartitionsBranchLabels.tree >  tree_normal_bs_nwk
+//
+ID: 20
 DESC: Generate color annotation file for Figtree. All tips will be coloured with the same color.
 COMMENT: Change #ed06a4, with desired hexcode. File>> Import colour scheme. May give a error ignore it. Click on the tree.
-KW: figtree, tip color scheme, phylogenetic tree
+KW: FASTA, figtree, tip color scheme, phylogenetic tree
 AU: KCM.EID[at]GMAIL.com
 CODE: grep ">" Sequence.fasta | cut -d " " -f 1 | sed 's/>//g'| perl -ne 'chomp; $dat .= "\t\"$_\"[&!color=#ed06a4]\n"; $c++; END{$dat="begin taxa;\n\tdimensions ntax=$c;\n\ttaxlabels\n".$dat.";\nend;\n" ; print $dat}'  > Sequence.figtree.tipColor
+//
+
+ID: 21
+DESC: Generate color annotation file for Figtree. Two column TSV file. NODE  \t  Col_HEX_code
+COMMENT:
+KW: TSV, figtree, tip color scheme, phylogenetic tree
+AU:KCM.EID[at]GMAIL.com
+CODE: perl -ne 'chomp; ($node,$col)=split /,/,$_; $c++; $dat .= "\t\"$node\"[&!color=$col]\n"; END{$dat="begin taxa;\n\tdimensions ntax=$c;\n\ttaxlabels\n".$dat.";\nend;\n" ; print $dat }' Col_annot.tsv > figtree.tipColor
 //
 
 ID: 
