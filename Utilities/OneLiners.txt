@@ -162,6 +162,15 @@ AU:KCM.EID[at]GMAIL.com
 CODE: perl -ne 'chomp; ($node,$col)=split /,/,$_; $c++; $dat .= "\t\"$node\"[&!color=$col]\n"; END{$dat="begin taxa;\n\tdimensions ntax=$c;\n\ttaxlabels\n".$dat.";\nend;\n" ; print $dat }' Col_annot.tsv > figtree.tipColor
 //
 
+ID: 22
+DESC: Extract top hit from blast tabular output
+COMMENT:
+KW: Blast, tabular BLAST, top hit
+AU: KCM.EID[at]GMAIL.com
+CODE: perl -ne '@l=split /\t/,$_; print $_ unless(exists $h{$l[0]}); $h{$l[0]}=1; ' BLAST_TABULAR_OUTPUT > BLAST_TOPHIT
+//
+
+
 ID: 
 DESC: 
 COMMENT:
